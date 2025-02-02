@@ -1,8 +1,9 @@
 import passport from "passport";
 import UserModel from "../src/auth/user.model.js";
+import { localStrategy } from "../src/auth/_passport.strategies.js";
 
 passport.serializeUser((user, done) => {
-    done(null, user._id);
+    done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
@@ -13,5 +14,7 @@ passport.deserializeUser(async (id, done) => {
         done(err);
     }
 });
+
+passport.use(localStrategy);
 
 export default passport;
