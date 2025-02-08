@@ -12,3 +12,30 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Session {
+  id        String   @id @default(uuid())
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  size      Float
+  path      String
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  files     File[]
+}
